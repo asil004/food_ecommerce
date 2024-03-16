@@ -21,14 +21,20 @@ class Images(TimeStampModel):
 
 class Color(TimeStampModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='colors')
-    color = models.CharField(max_length=50, blank=True,null=True)
+    color = models.CharField(max_length=50, blank=True, null=True)
 
 
 class Size(TimeStampModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='size')
-    size = models.CharField(max_length=50, blank=True,null=True)
+    size = models.CharField(max_length=50, blank=True, null=True)
 
 
 class Stars(TimeStampModel):
     product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='stars')
-    stars = models.IntegerField(max_length=1000, blank=True,null=True)
+    stars = models.IntegerField(max_length=1000, blank=True, null=True)
+
+
+class Discount(TimeStampModel):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='discount')
+    dis_percentage = models.IntegerField(max_length=1000, blank=True, null=True)
+    end_time = models.DateTimeField()
