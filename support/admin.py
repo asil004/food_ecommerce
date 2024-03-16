@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from support.models import Support
+
+admin.site.register(Support)
