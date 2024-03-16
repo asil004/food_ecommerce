@@ -31,10 +31,10 @@ class Size(TimeStampModel):
 
 class Stars(TimeStampModel):
     product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='stars')
-    stars = models.IntegerField(max_length=1000, blank=True, null=True)
+    stars = models.IntegerField(null=True, blank=True)
 
 
 class Discount(TimeStampModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='discount')
-    dis_percentage = models.IntegerField(max_length=1000, blank=True, null=True)
+    dis_percentage = models.IntegerField(blank=True, null=True)
     end_time = models.DateTimeField()
