@@ -11,8 +11,6 @@ class Category(MPTTModel,TimeStampModel):
     def publish(cls):
         return cls.objects.all()
 
-    class Meta:
-        ordering = ['order']
 
     def __str__(self):
         return self.category_name
