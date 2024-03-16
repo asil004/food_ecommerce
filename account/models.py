@@ -1,3 +1,6 @@
 from django.db import models
+from base.models import TimeStampModel
 
-# Create your models here.
+
+class User(TimeStampModel):
+    pass
