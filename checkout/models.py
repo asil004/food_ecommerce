@@ -1,9 +1,10 @@
 from django.db import models
 from basket.models import Basket
 from account.models import Account
+from base.models import TimeStampModel
 
 
-class BillingDetails(models.Model):
+class BillingDetails(TimeStampModel):
     first_name = models.CharField(max_length=50)
     company_name = models.CharField(50)
     address = models.CharField(100)
@@ -16,7 +17,7 @@ class BillingDetails(models.Model):
         return self.first_name
 
 
-class Checkout(models.Model):
+class Checkout(TimeStampModel):
     basket_id = models.ForeignKey(Basket, on_delete=models.CASCADE, related_name='Checkout')
     cupon_code = models.CharField(max_length=100)
     GENDER_CHOICES = (

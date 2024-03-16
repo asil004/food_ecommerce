@@ -2,9 +2,10 @@ from django.db import models
 from basket.models import Basket
 from checkout.models import BillingDetails
 from account import Account
+from base.models import TimeStampModel
 
 
-class Order(models.Model):
+class Order(TimeStampModel):
     basket_id = models.ForeignKey(Basket, on_delete=models.CASCADE, related_name='Order')
     GENDER_CHOICES = (
         ('K', 'Karta'),
