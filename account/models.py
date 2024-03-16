@@ -4,3 +4,4 @@ from base.models import TimeStampModel
 
 class User(TimeStampModel):
     pass
+# test
