@@ -1,6 +1,6 @@
 from django.db import models
 from basket.models import Basket
-from account.models import Account
+from account.models import User
 from base.models import TimeStampModel
 
 
@@ -26,7 +26,7 @@ class Checkout(TimeStampModel):
     )
     payment_type = models.CharField(max_length=1, choices=GENDER_CHOICES)
     billing_details = models.ForeignKey(BillingDetails, on_delete=models.CASCADE, related_name='Checkout')
-    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='Checkout')
+    account = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Checkout')
 
     def __str__(self):
         return self.basket_id
