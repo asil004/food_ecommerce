@@ -38,3 +38,5 @@ class Discount(TimeStampModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='discount')
     dis_percentage = models.IntegerField(blank=True, null=True)
     end_time = models.DateTimeField()
+
+
