@@ -37,7 +37,7 @@ class Product(TimeStampModel):
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='products')
     color = models.ForeignKey(Color, on_delete=models.PROTECT, null=True, blank=True)
     size = models.ForeignKey(Size, on_delete=models.PROTECT, null=True, blank=True)
-    discount = models.ForeignKey(Discount, on_delete=models,null=True,blank=True)
+    discount = models.ForeignKey(Discount, on_delete=models.PROTECT, null=True, blank=True)
 
     def __str__(self):
         return self.name
