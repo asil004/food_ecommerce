@@ -34,7 +34,13 @@ INSTALLED_APPS = [
     'checkout.apps.CheckoutConfig',
     'contact.apps.ContactConfig',
     'products.apps.ProductsConfig',
-    'support.apps.SupportConfig'
+    'support.apps.SupportConfig',
+
+    ####
+
+    'rest_framework',
+    'drf_yasg',
+    'rest_framework_swagger',
 
 ]
 
@@ -120,3 +126,4 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'account.User'
