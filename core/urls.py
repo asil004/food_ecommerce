@@ -36,10 +36,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/v1/", include("account.urls")),
     path("api/v1/", include("contact.urls")),
-    path("api/v1/", include("basket.urls")),
     path("api/v1/", include("support.urls")),
+    path("api/v1/", include("basket.urls")),
+    # swagger
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    # test2
 ]
 
 if settings.DEBUG:

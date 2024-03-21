@@ -1,20 +1,39 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from account.models import User
 from base.models import TimeStampModel
 from products.models import Product
 
 
 class ProductBasket(TimeStampModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product')
     quantity = models.PositiveIntegerField()
-    sum = models.FloatField()
+    sum = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def save(self, *args, **kwargs):
+        self.sum = self.product.price * self.quantity
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.product.name} * {self.quantity} = {self.sum}"
 
 
 class Basket(TimeStampModel):
-    product_basket = models.ForeignKey(ProductBasket, on_delete=models.CASCADE, related_name='product_basket')
-    sum = models.FloatField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product_basket')
+    # product_basket = models.ForeignKey(ProductBasket, on_delete=models.CASCADE, related_name='product_basket')
+    sum = models.FloatField(default=0.0)
 
     def __str__(self):
-        return f"{self.product_basket} = {self.sum}"
+        return f"{self.sum}"
+
+
+# @receiver(post_save, sender=ProductBasket)
+# def update_basket_sum(sender, instance, created, **kwargs):
+#     user = instance.user
+#     basket = Basket.objects.filter(user=user).first()  # Assuming Basket model has a user field
+#     if basket:
+#         basket.sum = sum(pb.sum for pb in basket.product_basket.all())
+#         basket.save()
