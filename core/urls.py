@@ -39,7 +39,7 @@ urlpatterns = [
     path("api/v1/", include("basket.urls")),
     path("api/v1/", include("support.urls")),
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    # test
+    # test2
 ]
 
 if settings.DEBUG:
