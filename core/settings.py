@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'checkout.apps.CheckoutConfig',
     'contact.apps.ContactConfig',
     'products.apps.ProductsConfig',
+<<<<<<< HEAD
     'support.apps.SupportConfig',
     'wishlist.apps.WishlistConfig',
 
@@ -42,6 +43,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'rest_framework_swagger',
+=======
+    'support.apps.SupportConfig'
+>>>>>>> 31517e9ee4c9466e07829bdf0f7d4b5d2ffd748b
 
 ]
 
