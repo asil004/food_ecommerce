@@ -33,10 +33,6 @@ class ProductBasketListCreateAPIView(APIView):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
-
-class ProductBasketDeleteAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
     def delete(self, request, pk):
         try:
             product_basket = ProductBasket.objects.get(user=request.user, pk=pk)

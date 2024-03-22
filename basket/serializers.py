@@ -31,3 +31,4 @@ class BasketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Basket
         exclude = ['created_at', 'updated_at']
+

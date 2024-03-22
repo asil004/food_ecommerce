@@ -28,12 +28,3 @@ class Basket(TimeStampModel):
 
     def __str__(self):
         return f"{self.sum}"
-
-
-# @receiver(post_save, sender=ProductBasket)
-# def update_basket_sum(sender, instance, created, **kwargs):
-#     user = instance.user
-#     basket = Basket.objects.filter(user=user).first()  # Assuming Basket model has a user field
-#     if basket:
-#         basket.sum = sum(pb.sum for pb in basket.product_basket.all())
-#         basket.save()

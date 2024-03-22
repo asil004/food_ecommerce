@@ -1,8 +1,7 @@
 from django.urls import path
-from .views import ProductBasketListCreateAPIView, BasketListView, ProductBasketDeleteAPIView
+from .views import ProductBasketListCreateAPIView, BasketListView
 
 urlpatterns = [
-    path('product_baskets/', ProductBasketListCreateAPIView.as_view(), name='product_basket_list_create'),
-    path('product_baskets/<int:pk>/', ProductBasketDeleteAPIView.as_view(), name='product_basket_delete'),
+    path('product_baskets/', ProductBasketListCreateAPIView.as_view(), name='product_basket'),
     path('basket/', BasketListView.as_view())
 ]
