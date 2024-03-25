@@ -9,7 +9,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
 from .serializers import ProductBasketSerializer, ProductBasketCreateSerializer, BasketSerializer, \
-    ProductBasketPlusSerializer
+    ProductBasketPlusSerializer, ProductBasketMinusSerializer
 from .models import ProductBasket, Basket
 
 
@@ -27,7 +27,10 @@ class ProductBasketListAPIView(APIView):
         user_id = request.user.id
         product_baskets = ProductBasket.objects.filter(user__id=user_id)
         serializer = ProductBasketSerializer(product_baskets, many=True)
-        return Response(serializer.data)
+        if product_baskets:
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'Basket is empty'}, status=status.HTTP_204_NO_CONTENT)
 
 
 class ProductBasketCreateAPIView(APIView):
@@ -67,12 +70,40 @@ class ProductBasketDestroyAPIView(APIView):
 class ProductBasketPlusAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'id': openapi.Schema(type=openapi.TYPE_INTEGER, description='ProductBasket ID'),
+            }
+        )
+    )
     def post(self, request):
-        serializer = ProductBasketPlusSerializer(data=request.data)
+        serializer = ProductBasketPlusSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save(user=request.user)
             update_basket_sum(request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProductBasketMinusAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'id': openapi.Schema(type=openapi.TYPE_INTEGER, description='Product ID'),
+            }
+        )
+    )
+    def post(self, request):
+        serializer = ProductBasketMinusSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            update_basket_sum(request.user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -83,3 +114,11 @@ class BasketListView(ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return Basket.objects.filter(user=user)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if queryset.exists():
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({"message": "Basket is empty."}, status=status.HTTP_204_NO_CONTENT)
