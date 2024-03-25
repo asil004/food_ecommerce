@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'contact.apps.ContactConfig',
     'products.apps.ProductsConfig',
     'support.apps.SupportConfig',
-
+    'wishlist.apps.WishlistConfig',
     ####
 
     'rest_framework',
