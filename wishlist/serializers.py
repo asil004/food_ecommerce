@@ -11,6 +11,7 @@ class WishlistGetSerializer(serializers.ModelSerializer):
         exclude = ['created_at', 'updated_at']
 
 
+
 class WishlistCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wishlist
