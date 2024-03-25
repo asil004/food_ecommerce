@@ -25,7 +25,7 @@ class Discount(TimeStampModel):
     end_time = models.DateTimeField()
 
     def __str__(self):
-        return self.dis_percentage
+        return str(self.dis_percentage)
 
 
 class Product(TimeStampModel):

@@ -1,11 +1,21 @@
 from rest_framework import serializers
+
+from products.models import Product
 from .models import Wishlist
 from account.models import User
 from account.serializers import UserSerializers
 from products.serializers import ProductSerializers
 
 
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        exclude = ['created_at', 'updated_at']
+
+
 class WishlistGetSerializer(serializers.ModelSerializer):
+    wishlist_pro = ProductSerializer()
+
     class Meta:
         model = Wishlist
         exclude = ['created_at', 'updated_at']
@@ -14,7 +24,8 @@ class WishlistGetSerializer(serializers.ModelSerializer):
 class WishlistCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wishlist
-        fields = ["wishlist_user", "wishlist_pro"]
+        fields = ["wishlist_pro"]
+
 
     # def __init__(self, *args, **kwargs):
     #     super(WishlistSerializer, self).__init__(*args, **kwargs)
