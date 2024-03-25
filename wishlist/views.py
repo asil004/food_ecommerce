@@ -20,15 +20,9 @@ from drf_yasg import openapi
 class GetWishlist(APIView):
     permission_classes = [IsAuthenticated]
 
-    @swagger_auto_schema(
-        manual_parameters=[
-            openapi.Parameter('user_id', in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER,
-                              description='Filter products by user ID'),
-        ]
-    )
     def get(self, request):
         user_id = request.user.id
-        user_wishlist = Wishlist.objects.filter(user_id=user_id)
+        user_wishlist = Wishlist.objects.filter(wishlist_user=user_id)
         serializer = WishlistGetSerializer(user_wishlist, many=True)
         return Response(serializer.data)
 
@@ -40,16 +34,19 @@ class CreateWishlist(APIView):
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,
             properties={
-                'product': openapi.Schema(type=openapi.TYPE_INTEGER, description='Product ID'),
+                'wishlist_pro': openapi.Schema(type=openapi.TYPE_INTEGER, description='Product ID'),
             }
         )
     )
-
     def post(self, request):
         serializer = WishlistCreateSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user=request.user)
-            return Response(serializer.data, status=201)
+            if not Wishlist.objects.filter(wishlist_pro=request.data['wishlist_pro'],
+                                           wishlist_user=request.user).exists():
+                serializer.save(wishlist_user=request.user)
+                return Response(serializer.data, status=201)
+            else:
+                return Response({"message": "Product is already exists"}, status=400)
         return Response(serializer.errors, status=400)
 
 
@@ -58,11 +55,11 @@ class DeleteWishlist(APIView):
 
     def delete(self, request, id):
         try:
-            delete_wishlist = Wishlist.objects.get(user=request.user, id=id)
+            delete_wishlist = Wishlist.objects.get(wishlist_user=request.user, wishlist_pro=id)
             delete_wishlist.delete()
-            return Response("Wishlist deleted successfully.", status=204)
+            return Response({'message': "Wishlist deleted successfully."}, status=204)
         except Wishlist.DoesNotExist:
-            return Response("Wishlist not found for the current user.", status=404)
+            return Response({'message': "Product not found in the Wishlist"}, status=404)
 
 # @csrf_exempt
 # @permission_classes([IsAuthenticated])
