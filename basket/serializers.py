@@ -24,11 +24,22 @@ class ProductBasketCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data['quantity'] = 1
+        print(validated_data)
         return ProductBasket.objects.create(**validated_data)
 
+
+class ProductBasketPlusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductBasket
+        fields = ['product']
+
+    def create(self, validated_data):
+        product_basket = ProductBasket.objects.get(id=validated_data['product'])
+        product_basket.quantity += 1
+        product_basket.save()
+        return product_basket
 
 class BasketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Basket
         exclude = ['created_at', 'updated_at']
-

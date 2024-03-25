@@ -14,7 +14,7 @@ class WishlistGetSerializer(serializers.ModelSerializer):
 class WishlistCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wishlist
-        fields = ["wishlist_user","wishlist_pro"]
+        fields = ["wishlist_user", "wishlist_pro"]
 
     # def __init__(self, *args, **kwargs):
     #     super(WishlistSerializer, self).__init__(*args, **kwargs)
