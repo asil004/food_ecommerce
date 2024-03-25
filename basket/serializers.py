@@ -27,8 +27,39 @@ class ProductBasketCreateSerializer(serializers.ModelSerializer):
         return ProductBasket.objects.create(**validated_data)
 
 
+class ProductBasketPlusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductBasket
+        fields = ['id']
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        product_basket = ProductBasket.objects.get(pk=request.data['id'])
+        product_basket.quantity += 1
+        product_basket.save()
+        return product_basket
+
+
+class ProductBasketMinusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductBasket
+        fields = ['id']
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        product_id = request.data['id']
+        product_basket = ProductBasket.objects.get(id=product_id)
+
+        if product_basket.quantity == 1:
+            product_basket.delete()
+        else:
+            product_basket.quantity -= 1
+            product_basket.save()
+
+        return product_basket
+
+
 class BasketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Basket
         exclude = ['created_at', 'updated_at']
-

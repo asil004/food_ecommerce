@@ -26,6 +26,7 @@ class WishlistCreateSerializer(serializers.ModelSerializer):
         model = Wishlist
         fields = ["wishlist_pro"]
 
+
     # def __init__(self, *args, **kwargs):
     #     super(WishlistSerializer, self).__init__(*args, **kwargs)
     #
