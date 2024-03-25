@@ -36,6 +36,15 @@ class GetWishlist(APIView):
 class CreateWishlist(APIView):
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'product': openapi.Schema(type=openapi.TYPE_INTEGER, description='Product ID'),
+            }
+        )
+    )
+
     def post(self, request):
         serializer = WishlistCreateSerializer(data=request.data)
         if serializer.is_valid():
