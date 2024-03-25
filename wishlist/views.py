@@ -10,6 +10,8 @@ from .models import Wishlist
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 from rest_framework.views import APIView
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 
 # Create your views here.
@@ -18,6 +20,12 @@ from rest_framework.views import APIView
 class GetWishlist(APIView):
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('user_id', in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER,
+                              description='Filter products by user ID'),
+        ]
+    )
     def get(self, request):
         user_id = request.user.id
         user_wishlist = Wishlist.objects.filter(user_id=user_id)
@@ -39,9 +47,9 @@ class CreateWishlist(APIView):
 class DeleteWishlist(APIView):
     permission_classes = [IsAuthenticated]
 
-    def delete(self, request):
+    def delete(self, request, id):
         try:
-            delete_wishlist = Wishlist.objects.get(user=request.user)
+            delete_wishlist = Wishlist.objects.get(user=request.user, id=id)
             delete_wishlist.delete()
             return Response("Wishlist deleted successfully.", status=204)
         except Wishlist.DoesNotExist:
