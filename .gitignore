@@ -3,6 +3,7 @@
 venv
 __pycache__
 .iws
+db.sqlite3
 workspace.xml
 tasks.xml
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
