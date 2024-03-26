@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .views import CheckoutListCreateView, CheckoutRetrieveUpdateDestroyView
+from .views import (CheckoutCreateView)
 
 urlpatterns = [
-    path('checkout-create/', CheckoutListCreateView.as_view()),
-    path('checkout-update/', CheckoutRetrieveUpdateDestroyView.as_view()),
+    path('checkout-create/', CheckoutCreateView.as_view()),
+
 ]
