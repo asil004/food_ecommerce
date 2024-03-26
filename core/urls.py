@@ -26,8 +26,9 @@ from django.conf import settings
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Episyche Technologies",
-        default_version='v1', ),
+        title="Food Ecommerce",
+        default_version='v1',
+    ),
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
@@ -36,10 +37,19 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/v1/", include("account.urls")),
     path("api/v1/", include("contact.urls")),
+
     path("api/v1/", include("about.urls")),
     path("api/v1/", include("banners.urls")),
-    path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
+    path("api/v1/", include("support.urls")),
+    path("api/v1/", include("basket.urls")),
+    # swagger
+
+    path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/v1/', include("categories.urls")),
+    path('api/v1/', include("wishlist.urls")),
+    path("api/v1/", include("order.urls")),
+    path("api/v1/", include("checkout.urls"))
 ]
 
 if settings.DEBUG:
