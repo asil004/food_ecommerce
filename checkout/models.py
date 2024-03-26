@@ -1,5 +1,5 @@
 from django.db import models
-from basket.models import Basket
+from basket.models import Basket, ProductBasket
 from account.models import User
 from base.models import TimeStampModel
 
@@ -18,15 +18,18 @@ class BillingDetails(TimeStampModel):
 
 
 class Checkout(TimeStampModel):
-    basket_id = models.ForeignKey(Basket, on_delete=models.CASCADE, related_name='Checkout')
+    product_basket = models.ManyToManyField(ProductBasket, related_name='product_basket')
     cupon_code = models.CharField(max_length=100)
-    GENDER_CHOICES = (
+    bank_card = (
         ('K', 'Karta'),
         ('N', 'Naxt'),
     )
-    payment_type = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    is_checkout = models.BooleanField(default=False)
+    card_number = models.CharField(null=True, blank=True, max_length=20)
+    card_date = models.CharField(null=True, blank=True, max_length=5)
+    payment_type = models.CharField(max_length=1, choices=bank_card)
     billing_details = models.ForeignKey(BillingDetails, on_delete=models.CASCADE, related_name='Checkout')
     account = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Checkout')
 
     def __str__(self):
-        return self.basket_id
+        return self.card_number
