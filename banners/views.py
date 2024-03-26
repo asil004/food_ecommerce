@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework import generics
 
-# Create your views here.
+from .serializers import BannerSerializers
+from .models import Banners
+
+
+class BannerListAPIView(generics.ListAPIView):
+    serializer_class = BannerSerializers
+    queryset = Banners.objects.all()
