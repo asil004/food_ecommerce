@@ -37,14 +37,20 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/v1/", include("account.urls")),
     path("api/v1/", include("contact.urls")),
+
+    path("api/v1/", include("about.urls")),
+    path("api/v1/", include("banners.urls")),
+
     path("api/v1/", include("support.urls")),
     path("api/v1/", include("basket.urls")),
     # swagger
+
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/v1/', include("categories.urls")),
     path('api/v1/', include("wishlist.urls")),
     path("api/v1/", include("order.urls")),
-    path("api/v1/", include("checkout.urls"))
+    path("api/v1/", include("checkout.urls")),
+    path("api/v1/", include("products.urls"))
 ]
 
 if settings.DEBUG:
