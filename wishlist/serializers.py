@@ -4,7 +4,6 @@ from products.models import Product
 from .models import Wishlist
 from account.models import User
 from account.serializers import UserSerializers
-from products.serializers import ProductSerializers
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -25,7 +24,6 @@ class WishlistCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wishlist
         fields = ["wishlist_pro"]
-
 
     # def __init__(self, *args, **kwargs):
     #     super(WishlistSerializer, self).__init__(*args, **kwargs)
