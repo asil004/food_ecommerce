@@ -10,7 +10,3 @@ class OrderListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
 
-class OrderRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializers
-    permission_classes = [IsAuthenticated]
