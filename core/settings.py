@@ -154,20 +154,3 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 
-
-# AUTHENTICATION_BACKENDS = (
-#     # Google  OAuth2
-#     'social_core.backends.google.GoogleOAuth2',
-#     'drf_social_oauth2.backends.DjangoOAuth2',
-#     'django.contrib.auth.backends.ModelBackend',
-# )
-#
-# # Google configuration
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "251783757314-d46drr31tl5v48tqt71oni7djf79irmj.apps.googleusercontent.com"
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
-#
-# # Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
-#     'https://www.googleapis.com/auth/userinfo.email',
-#     'https://www.googleapis.com/auth/userinfo.profile',
-# ]
