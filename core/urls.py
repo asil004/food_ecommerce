@@ -43,7 +43,8 @@ urlpatterns = [
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/v1/', include("categories.urls")),
     path('api/v1/', include("wishlist.urls")),
-    path("api/v1/", include("order.urls"))
+    path("api/v1/", include("order.urls")),
+    path("api/v1/", include("checkout.urls"))
 ]
 
 if settings.DEBUG:
