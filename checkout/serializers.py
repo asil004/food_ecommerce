@@ -1,5 +1,6 @@
 from basket.models import ProductBasket
 from basket.serializers import ProductBasketSerializer
+from products.models import Product
 from .models import Checkout, BillingDetails, bank_card
 from rest_framework import serializers
 
@@ -28,3 +29,6 @@ class MyOrdersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Checkout
         exclude = ['created_at', 'updated_at', 'cupon_code', 'card_number', 'card_date', 'account']
+
+
+

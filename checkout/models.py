@@ -2,6 +2,7 @@ from django.db import models
 from basket.models import Basket, ProductBasket
 from account.models import User
 from base.models import TimeStampModel
+from products.models import Product
 
 
 class BillingDetails(TimeStampModel):
@@ -24,8 +25,10 @@ bank_card = (
 
 
 class Checkout(TimeStampModel):
-    product_basket = models.ManyToManyField(ProductBasket, related_name='product_basket')
-    cupon_code = models.CharField(max_length=100)
+    product_basket = models.ManyToManyField(ProductBasket, related_name='product_basket', null=True, blank=True)
+    product = models.ForeignKey(Product, related_name='product_checkout', on_delete=models.CASCADE, null=True,
+                                blank=True),
+    cupon_code = models.CharField(max_length=100, null=True, blank=True)
     is_checkout = models.BooleanField(default=False)
     card_number = models.CharField(null=True, blank=True, max_length=20)
     card_date = models.CharField(null=True, blank=True, max_length=5)
