@@ -5,10 +5,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import ChangePasswordSerializer, UpdateUserSerializer, \
     RegisterSerializer, MyTokenObtainPairSerializer
-from .utils import CustomUserAuth
 from .models import User
-
-user_auth = CustomUserAuth()
 
 
 # register
