@@ -12,7 +12,6 @@ class BillingDetailsSerializers(serializers.ModelSerializer):
 
 class CheckoutSerializers(serializers.ModelSerializer):
     billing_details = BillingDetailsSerializers()
-    payment_type = serializers.MultipleChoiceField(choices=bank_card)
 
     class Meta:
         model = Checkout
@@ -23,7 +22,7 @@ class MyOrdersSerializer(serializers.ModelSerializer):
     billing_details = BillingDetailsSerializers()
     product_basket = ProductBasketSerializer(many=True)
     payment_type = serializers.ChoiceField(
-        source='get_payment_type_display', read_only=True, choices=bank_card
+        read_only=True, choices=bank_card
     )
 
     class Meta:
