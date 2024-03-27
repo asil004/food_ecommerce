@@ -17,13 +17,15 @@ class BillingDetails(TimeStampModel):
         return self.first_name
 
 
+bank_card = (
+    ('K', 'Karta'),
+    ('N', 'Naxt'),
+)
+
+
 class Checkout(TimeStampModel):
     product_basket = models.ManyToManyField(ProductBasket, related_name='product_basket')
     cupon_code = models.CharField(max_length=100)
-    bank_card = (
-        ('K', 'Karta'),
-        ('N', 'Naxt'),
-    )
     is_checkout = models.BooleanField(default=False)
     card_number = models.CharField(null=True, blank=True, max_length=20)
     card_date = models.CharField(null=True, blank=True, max_length=5)
