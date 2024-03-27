@@ -7,5 +7,4 @@ urlpatterns = [
         path('create/', CreateWishlist.as_view(), name='Create_Wishlist'),
         path('delete/<int:id>', DeleteWishlist.as_view(), name='Delete_Wishlist')
     ]))
-
 ]
