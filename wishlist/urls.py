@@ -1,8 +1,11 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
 
 urlpatterns = [
-    path('getwishlist/', GetWishlist.as_view(), name='Get_Wishlist'),
-    path('createwishlist/', CreateWishlist.as_view(), name='Create_Wishlist'),
-    path('deletewishlist/<int:id>', DeleteWishlist.as_view(), name='Delete_Wishlist')
+    path('wishlist/', include([
+        path('', GetWishlist.as_view(), name='Get_Wishlist'),
+        path('create/', CreateWishlist.as_view(), name='Create_Wishlist'),
+        path('delete/<int:id>', DeleteWishlist.as_view(), name='Delete_Wishlist')
+    ]))
+
 ]
