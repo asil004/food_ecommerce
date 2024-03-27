@@ -2,8 +2,6 @@ from rest_framework import serializers
 
 from products.models import Product
 from .models import Wishlist
-from account.models import User
-from account.serializers import UserSerializers
 
 
 class ProductSerializer(serializers.ModelSerializer):
