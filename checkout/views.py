@@ -38,4 +38,4 @@ class CheckoutCreateView(APIView):
         for pb in product_basket:
             checkout.product_basket.add(pb)
 
-        return Response({},status=status.HTTP_201_CREATED)
+        return Response({}, status=status.HTTP_201_CREATED)
