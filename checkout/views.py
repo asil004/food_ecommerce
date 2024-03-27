@@ -7,8 +7,8 @@ from drf_yasg.utils import swagger_auto_schema
 
 from basket.models import ProductBasket
 from products.models import Product
-from .models import Checkout
-from .serializers import CheckoutSerializers, BillingDetailsSerializers, MyOrdersSerializer
+from .models import Checkout, CheckoutBasket, CheckoutProduct
+from .serializers import CheckoutSerializers, BillingDetailsSerializers, MyOrdersSerializer, CheckoutProductSerializers
 
 
 # checkout
@@ -30,10 +30,12 @@ class CheckoutCreateView(APIView):
         billing_details = bd_serializer.save()
 
         product_basket = ProductBasket.objects.filter(user=user)
-        checkout = Checkout.objects.filter(account=user, is_checkout=False).first()
+        checkout = CheckoutBasket.objects.filter(account=user, is_checkout=False).first()
         if not checkout:
-            checkout = Checkout.objects.create(account=user, billing_details=billing_details,
-                                               **serializer.validated_data)
+            checkout = CheckoutBasket.objects.create(account=user, billing_details=billing_details,
+                                                     **serializer.validated_data)
+        else:
+            raise ValidationError("This product already in checkout and not payed!")
         for pb in product_basket:
             checkout.product_basket.add(pb)
 
@@ -43,12 +45,12 @@ class CheckoutCreateView(APIView):
 class ProductCheckoutCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
-    @swagger_auto_schema(request_body=CheckoutSerializers)
+    @swagger_auto_schema(request_body=CheckoutProductSerializers)
     def post(self, request, pk):
         user = request.user
         product = Product.objects.get(pk=pk)
 
-        serializer = CheckoutSerializers(data=request.data)
+        serializer = CheckoutProductSerializers(data=request.data)
 
         if serializer.is_valid():
             billing_details_data = serializer.validated_data.pop('billing_details', None)
@@ -59,11 +61,13 @@ class ProductCheckoutCreateView(APIView):
             bd_serializer.is_valid(raise_exception=True)
             billing_details = bd_serializer.save()
 
-            checkout = Checkout.objects.filter(account=user, is_checkout=False).first()
+            checkout = CheckoutProduct.objects.filter(account=user, is_checkout=False).first()
             if not checkout:
-                Checkout.objects.create(account=user, billing_details=billing_details, product=product,
-                                        **serializer.validated_data)
+                checkout_product = CheckoutProduct.objects.create(account=user, billing_details=billing_details)
+                checkout_product.product.add(product)
 
+            else:
+                raise ValidationError("This product already in checkout and not payed!")
             return Response({'message': 'Checkout successfully created.'}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -74,7 +78,7 @@ class MyOrdersView(APIView):
 
     def get(self, request):
         user = request.user
-        checkout = Checkout.objects.filter(account=user)
+        checkout = CheckoutBasket.objects.filter(account=user)
         serializer = MyOrdersSerializer(checkout, many=True)
         if checkout:
             return Response(serializer.data, status=status.HTTP_200_OK)

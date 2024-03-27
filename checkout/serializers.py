@@ -1,7 +1,7 @@
 from basket.models import ProductBasket
 from basket.serializers import ProductBasketSerializer
 from products.models import Product
-from .models import Checkout, BillingDetails, bank_card
+from .models import Checkout, BillingDetails, bank_card, CheckoutBasket, CheckoutProduct
 from rest_framework import serializers
 
 
@@ -15,8 +15,17 @@ class CheckoutSerializers(serializers.ModelSerializer):
     billing_details = BillingDetailsSerializers()
 
     class Meta:
-        model = Checkout
+        model = CheckoutBasket
         fields = ['billing_details', 'cupon_code', 'payment_type', 'card_number', 'card_date']
+
+
+class CheckoutProductSerializers(serializers.ModelSerializer):
+    billing_details = BillingDetailsSerializers()
+
+    class Meta:
+        model = CheckoutProduct
+        fields = ['billing_details', 'cupon_code', 'payment_type', 'card_number', 'card_date', 'color', 'size',
+                  'quantity']
 
 
 class MyOrdersSerializer(serializers.ModelSerializer):
@@ -27,8 +36,5 @@ class MyOrdersSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = Checkout
+        model = CheckoutBasket
         exclude = ['created_at', 'updated_at', 'cupon_code', 'card_number', 'card_date', 'account']
-
-
-
