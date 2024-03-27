@@ -11,7 +11,7 @@ from drf_yasg import openapi
 
 from basket.models import ProductBasket
 from .models import Checkout, BillingDetails
-from .serializers import CheckoutSerializers, BillingDetailsSerializers
+from .serializers import CheckoutSerializers, BillingDetailsSerializers, MyOrdersSerializer
 
 
 class CheckoutCreateView(APIView):
@@ -39,3 +39,16 @@ class CheckoutCreateView(APIView):
             checkout.product_basket.add(pb)
 
         return Response({}, status=status.HTTP_201_CREATED)
+
+
+class MyOrdersView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        checkout = Checkout.objects.filter(account=user)
+        serializer = MyOrdersSerializer(checkout, many=True)
+        if checkout:
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "Orders Not fount"}, status=status.HTTP_204_NO_CONTENT)
