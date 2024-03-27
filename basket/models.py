@@ -11,7 +11,7 @@ class ProductBasket(TimeStampModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product')
     quantity = models.PositiveIntegerField()
-    sum = models.DecimalField(max_digits=10, decimal_places=2)
+    sum = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     def save(self, *args, **kwargs):
         self.sum = self.product.price * self.quantity
