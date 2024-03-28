@@ -44,7 +44,6 @@ class CheckoutBasket(Checkout):
         return str(self.id)
 
 
-
 class ProductCheckout(Checkout):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_checkout')
     quantity = models.PositiveSmallIntegerField(default=0)
