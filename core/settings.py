@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-
     # apps
     'about.apps.AboutConfig',
     'account.apps.AccountConfig',
@@ -38,7 +37,6 @@ INSTALLED_APPS = [
     'support.apps.SupportConfig',
     'wishlist.apps.WishlistConfig',
 
-
     'rest_framework',
     'drf_yasg',
     'rest_framework_swagger',
@@ -46,7 +44,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'social_django',
     'drf_social_oauth2',
-
+    'corsheaders',
 
 ]
 
@@ -77,6 +75,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -160,7 +160,6 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 
-
 AUTHENTICATION_BACKENDS = (
     # Others auth providers (e.g. Facebook, OpenId)
     # Google  OAuth2
@@ -181,3 +180,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.profile',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "http://localhost:8080",
+    "http://localhost:3000",
+]
