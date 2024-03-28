@@ -26,7 +26,7 @@ class CheckoutProductSerializers(serializers.ModelSerializer):
     class Meta:
         model = CheckoutProduct
         fields = ['billing_details', 'cupon_code', 'payment_type', 'card_number', 'card_date', 'color', 'size',
-                  'quantity']
+                  'quantity', 'total_sum']
 
 
 class MyOrdersSerializer(serializers.ModelSerializer):
@@ -39,6 +39,3 @@ class MyOrdersSerializer(serializers.ModelSerializer):
     class Meta:
         model = CheckoutBasket
         exclude = ['created_at', 'updated_at', 'cupon_code', 'card_number', 'card_date', 'account']
-
-
-

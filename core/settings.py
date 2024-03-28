@@ -25,8 +25,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # apps
+    ####
+    'rest_framework',
+    'drf_yasg',
+    'rest_framework_swagger',
+    'rest_framework_simplejwt',
 
+    # apps
     'about.apps.AboutConfig',
     'account.apps.AccountConfig',
     'banners.apps.BannersConfig',
@@ -37,13 +42,6 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'support.apps.SupportConfig',
     'wishlist.apps.WishlistConfig',
-    ####
-
-    'rest_framework',
-    'drf_yasg',
-    'rest_framework_swagger',
-    'rest_framework_simplejwt',
-
 ]
 
 REST_FRAMEWORK = {
@@ -103,7 +101,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -147,7 +144,6 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 AUTH_USER_MODEL = 'account.User'
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
@@ -155,4 +151,3 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 
 # salom
-

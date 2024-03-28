@@ -1,9 +1,8 @@
 from django.urls import path, include
 
+from .views import CheckoutCreateView, MyOrdersView, ProductCheckoutCreateView
 
-from .views import CheckoutCreateView, MyOrdersView
-
-
+app_name = 'checkout'
 
 urlpatterns = [
     path('checkout/', include([
