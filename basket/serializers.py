@@ -14,7 +14,7 @@ class ProductBasketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductBasket
-        fields = ['user', 'id', 'product', 'quantity', 'sum']
+        fields = ['user', 'product', 'quantity', 'sum']
 
 
 class ProductBasketCreateSerializer(serializers.ModelSerializer):
