@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'support.apps.SupportConfig',
     'wishlist.apps.WishlistConfig',
 
-    ####
 
     'rest_framework',
     'drf_yasg',
@@ -47,6 +46,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'social_django',
     'drf_social_oauth2',
+    'corsheaders',
 
 ]
 
@@ -77,6 +77,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -180,6 +182,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.profile',
 ]
 
+
 # jazzmin
 JAZZMIN_UI_TWEAKS = {
     "navbar_small_text": False,
@@ -213,3 +216,12 @@ JAZZMIN_UI_TWEAKS = {
     },
     "actions_sticky_top": False
 }
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "http://localhost:8080",
+    "http://localhost:3000",
+]
+
+
