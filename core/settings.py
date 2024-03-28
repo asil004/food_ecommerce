@@ -25,12 +25,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    ####
-    'rest_framework',
-    'drf_yasg',
-    'rest_framework_swagger',
-    'rest_framework_simplejwt',
-
     # apps
     'about.apps.AboutConfig',
     'account.apps.AccountConfig',
@@ -42,6 +36,18 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'support.apps.SupportConfig',
     'wishlist.apps.WishlistConfig',
+
+    ####
+
+    'rest_framework',
+    'drf_yasg',
+    'rest_framework_swagger',
+    'rest_framework_simplejwt',
+    'oauth2_provider',
+    'social_django',
+    'drf_social_oauth2',
+
+
 ]
 
 REST_FRAMEWORK = {
@@ -49,6 +55,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
+        'drf_social_oauth2.authentication.SocialAuthentication',
     )
 }
 
@@ -84,6 +92,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -150,4 +160,24 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 
-# salom
+
+AUTHENTICATION_BACKENDS = (
+    # Others auth providers (e.g. Facebook, OpenId)
+    # Google  OAuth2
+    'social_core.backends.google.GoogleOAuth2',
+    # drf
+    'drf_social_oauth2.backends.DjangoOAuth2',
+    # Django
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# Google configuration
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "PyXcOzSziFWbiLPYF4kmXvppGlAzD9IngrJ6lIg9"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "H9TKGQpTfvlFKfs4Enl4omCd6W13wxuNK6IeMuUz88RQxARcXECnXXqQmHZx2rdQrvI0r4gEF8HTwh3rX0Xk3vbpOY7h08oZvAPcCNerz6iOQlDijRTYPTbL0Mu9yP3E"
+
+# Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+]
+
