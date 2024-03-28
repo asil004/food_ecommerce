@@ -26,7 +26,7 @@ class Product(TimeStampModel):
 
 
 class Color(TimeStampModel):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='color')
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='color')
     color = models.CharField(max_length=20)
     slug = models.SlugField(max_length=20, unique=True)
 
@@ -35,7 +35,7 @@ class Color(TimeStampModel):
 
 
 class Size(TimeStampModel):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='size')
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='size')
     size = models.CharField(max_length=20)
     slug = models.SlugField(max_length=20, unique=True)
 
@@ -52,7 +52,7 @@ class Images(TimeStampModel):
 
 
 class Stars(TimeStampModel):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='stars')
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='stars')
     stars = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
