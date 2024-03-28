@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework import status
@@ -8,8 +9,9 @@ from drf_yasg.utils import swagger_auto_schema
 from basket.models import ProductBasket
 from products.models import Product
 
-from .models import Checkout, BillingDetails, CheckoutBasket, CheckoutProduct
-from .serializers import CheckoutSerializers, BillingDetailsSerializers, MyOrdersSerializer, CheckoutProductSerializers
+from .models import Checkout, BillingDetails, CheckoutBasket, ProductCheckout
+from .serializers import CheckoutSerializers, BillingDetailsSerializers, MyOrdersSerializer, CheckoutProductSerializers, \
+    MyOrderProductSerializer
 
 from django.db import transaction
 
@@ -49,9 +51,9 @@ class ProductCheckoutCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(request_body=CheckoutProductSerializers)
-    def post(self, request, pk):
+    def post(self, request, product_slug):
         user = request.user
-        product = Product.objects.get(pk=pk)
+        product = Product.objects.get(slug=product_slug)
 
         serializer = CheckoutProductSerializers(data=request.data)
 
@@ -64,10 +66,10 @@ class ProductCheckoutCreateView(APIView):
             bd_serializer.is_valid(raise_exception=True)
             billing_details = bd_serializer.save()
 
-            checkout = CheckoutProduct.objects.filter(account=user, is_checkout=False).first()
+            checkout = ProductCheckout.objects.filter(account=user, is_checkout=False).first()
             if not checkout:
-                checkout_product = CheckoutProduct.objects.create(account=user, billing_details=billing_details)
-                checkout_product.product.add(product)
+                ProductCheckout.objects.create(account=user, product=product, billing_details=billing_details,**serializer.validated_data)
+
 
             else:
                 raise ValidationError("This product already in checkout and not payed!")
@@ -82,8 +84,14 @@ class MyOrdersView(APIView):
     def get(self, request):
         user = request.user
         checkout = CheckoutBasket.objects.filter(account=user)
+        checkout_p = ProductCheckout.objects.filter(account=user)
+        # checkout_p = get_object_or_404(ProductCheckout,account=user)
+        print(checkout_p)
         serializer = MyOrdersSerializer(checkout, many=True)
+        serializer_p = MyOrderProductSerializer(checkout_p, many=True)
         if checkout:
             return Response(serializer.data, status=status.HTTP_200_OK)
+        elif checkout_p:
+            return Response(serializer_p.data, status=status.HTTP_200_OK)
         else:
-            return Response({"message": "Orders Not fount"}, status=status.HTTP_204_NO_CONTENT)
+            return Response({"message": "Orders Not found!"}, status=status.HTTP_204_NO_CONTENT)
