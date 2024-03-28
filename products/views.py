@@ -158,4 +158,4 @@ class CheckoutSold(APIView):
             )
         total_sum = products.aggregate(total_price=Sum(F('price') * quantity))['total_price']
         serializer = ProductSerializer(products, many=True)
-        return Response({"result": serializer.data, "total_sum": total_sum}, status=200)
+        return Response({"result": serializer.data, "total_sum": total_sum,"quantity":quantity}, status=200)
