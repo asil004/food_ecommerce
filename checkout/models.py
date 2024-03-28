@@ -45,9 +45,7 @@ class CheckoutBasket(Checkout):
 
 
 class CheckoutProduct(Checkout):
-    product = models.ForeignKey(Product, related_name='product_checkout', on_delete=models.CASCADE),
-    color = models.ForeignKey(Color, on_delete=models.CASCADE, null=True, blank=True)
-    size = models.ForeignKey(Size, on_delete=models.CASCADE, null=True, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_checkout')
     quantity = models.PositiveSmallIntegerField(default=0)
     total_sum = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     billing_details = models.ForeignKey(BillingDetails, on_delete=models.CASCADE, related_name='CheckoutProduct')
