@@ -26,7 +26,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # apps
-
     'about.apps.AboutConfig',
     'account.apps.AccountConfig',
     'banners.apps.BannersConfig',
@@ -37,6 +36,7 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'support.apps.SupportConfig',
     'wishlist.apps.WishlistConfig',
+
     ####
 
     'rest_framework',
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'social_django',
     'drf_social_oauth2',
+
 
 ]
 
@@ -159,6 +160,7 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 
+
 AUTHENTICATION_BACKENDS = (
     # Others auth providers (e.g. Facebook, OpenId)
     # Google  OAuth2
@@ -178,3 +180,4 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile',
 ]
+
