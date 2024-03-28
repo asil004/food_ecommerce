@@ -9,10 +9,10 @@ from basket.models import ProductBasket
 
 from .models import Checkout, BillingDetails
 from .serializers import CheckoutSerializers, BillingDetailsSerializers, MyOrdersSerializer
-from products.models import Product
-from .serializers import billingDetailscheckutSerializers
+
+
 from django.db import transaction
-from django.db.models import Sum, F
+
 
 
 # checkout
@@ -90,77 +90,4 @@ class MyOrdersView(APIView):
             return Response({"message": "Orders Not fount"}, status=status.HTTP_204_NO_CONTENT)
 
 
-class ProductDetailsCheckoutView(APIView):
-    permission_classes = [IsAuthenticated]
 
-    @swagger_auto_schema(
-        manual_parameters=[
-            openapi.Parameter(
-                name='name',
-                in_=openapi.IN_QUERY,
-                type=openapi.TYPE_STRING,
-                description='Product name',
-                required=True
-            ),
-        ]
-    )
-    def get(self, request):
-        name = request.query_params.get('name')
-        try:
-            products = Product.objects.filter(name=name)
-        except Product.DoesNotExist:
-            return Response({"error": "Ushbu nomga ega bo'lgan mahsulot topilmadi"}, status=status.HTTP_404_NOT_FOUND)
-        serializer = billingDetailscheckutSerializers(products, many=True)
-        return Response({"data": serializer.data})
-
-
-class CheckoutSold(APIView):
-    permission_classes = [IsAuthenticated]
-
-    @swagger_auto_schema(
-        manual_parameters=[
-            openapi.Parameter(
-                name='color_slug',
-                in_=openapi.IN_QUERY,
-                type=openapi.TYPE_STRING,
-                description='color slug',
-                required=True
-            ),
-            openapi.Parameter(
-                name='size_slug',
-                in_=openapi.IN_QUERY,
-                type=openapi.TYPE_STRING,
-                description='size slug',
-                required=True
-            ),
-            openapi.Parameter(
-                name='name',
-                in_=openapi.IN_QUERY,
-                type=openapi.TYPE_STRING,
-                description='Product name',
-                required=True
-            ),
-        ]
-    )
-    def get(self, request, quantity):
-        name = request.query_params.get('name')
-        color_slug = request.query_params.get('color_slug')
-        size_slug = request.query_params.get('size_slug')
-        try:
-            products = Product.objects.filter(
-                name=name, color__slug=color_slug, size__slug=size_slug
-            )
-        except Product.DoesNotExist:
-            return Response(
-                {"error": "Ushbu nom, rang yoki o'lchov nomiga ega bo'lgan mahsulot topilmadi"},
-                status=404,
-            )
-
-        if not products.exists():
-            return Response(
-                {"error": "Ushbu nom, rang yoki o'lchov nomiga ega bo'lgan mahsulot topilmadi"},
-                status=404,
-            )
-        total_sum = products.aggregate(total_price=Sum(F('price') * quantity))['total_price']
-        serializer = billingDetailscheckutSerializers(products, many=True)
-        return Response({"result": serializer.data, "total_sum": total_sum}, status=200)

@@ -21,7 +21,6 @@ class Product(TimeStampModel):
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='products')
     discount = models.ForeignKey(Discount, on_delete=models.PROTECT, null=True, blank=True)
 
-
     def __str__(self):
         return self.slug
 
