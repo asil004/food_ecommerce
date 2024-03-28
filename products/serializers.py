@@ -21,12 +21,10 @@ class StarsSerializer(serializers.ModelSerializer):
         model = Stars
         exclude = ['created_at', 'updated_at']
 
-
-class DiscountSerializer(serializers.ModelSerializer):
+class ColorSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Discount
-        exclude = ['created_at', 'updated_at']
-
+        model = Color
+        fields = '__all__'
 
 class ProductCategorySerializers(serializers.ModelSerializer):
     images = ImageSerializer(many=True)
@@ -42,10 +40,9 @@ class ProductSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True)
     stars = StarsSerializer(many=True)
     discount = DiscountSerializer()
+    color = ColorSerializer()
 
     class Meta:
         model = Product
         fields = ["id", "name", "slug", "price", "quantity", "description", "color", "size", "category", "discount",
                   "images", "stars"]
-
-
