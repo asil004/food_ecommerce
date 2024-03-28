@@ -4,12 +4,6 @@ from categories.models import Category
 from .models import *
 
 
-class DiscountSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Discount
-        exclude = ['created_at', 'updated_at']
-
-
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Images
@@ -21,15 +15,29 @@ class StarsSerializer(serializers.ModelSerializer):
         model = Stars
         exclude = ['created_at', 'updated_at']
 
-class ColorSerializer(serializers.ModelSerializer):
+
+class ColorsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Color
-        fields = '__all__'
+        exclude = ['created_at', 'updated_at']
+
+
+class SizesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Size
+        exclude = ['created_at', 'updated_at']
+
+
+class DiscountsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Discount
+        exclude = ['created_at', 'updated_at']
+
 
 class ProductCategorySerializers(serializers.ModelSerializer):
     images = ImageSerializer(many=True)
     stars = StarsSerializer(many=True)
-    discount = DiscountSerializer()
+    discount = DiscountsSerializer()
 
     class Meta:
         model = Product
@@ -38,11 +46,11 @@ class ProductCategorySerializers(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True)
+    color = ColorsSerializer(many=True)
+    size = SizesSerializer(many=True)
     stars = StarsSerializer(many=True)
-    discount = DiscountSerializer()
-    color = ColorSerializer()
 
     class Meta:
         model = Product
-        fields = ["id", "name", "slug", "price", "quantity", "description", "color", "size", "category", "discount",
-                  "images", "stars"]
+        fields = ["id", "name", "slug", "price", "quantity", "description", "category", "color", "size",
+                  "images", "stars", "discount"]
