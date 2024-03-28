@@ -6,13 +6,12 @@ from rest_framework.views import APIView
 from drf_yasg.utils import swagger_auto_schema
 
 from basket.models import ProductBasket
+from products.models import Product
 
-from .models import Checkout, BillingDetails
-from .serializers import CheckoutSerializers, BillingDetailsSerializers, MyOrdersSerializer
-
+from .models import Checkout, BillingDetails, CheckoutBasket, CheckoutProduct
+from .serializers import CheckoutSerializers, BillingDetailsSerializers, MyOrdersSerializer, CheckoutProductSerializers
 
 from django.db import transaction
-
 
 
 # checkout
@@ -88,6 +87,3 @@ class MyOrdersView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"message": "Orders Not fount"}, status=status.HTTP_204_NO_CONTENT)
-
-
-

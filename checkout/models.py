@@ -30,15 +30,15 @@ class Checkout(TimeStampModel):
     card_number = models.CharField(null=True, blank=True, max_length=20)
     card_date = models.CharField(null=True, blank=True, max_length=5)
     payment_type = models.CharField(max_length=1, choices=bank_card)
-    billing_details = models.ForeignKey(BillingDetails, on_delete=models.CASCADE, related_name='Checkout')
-    account = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Checkout')
 
-    def __str__(self):
-        return self.card_number
+    class Meta:
+        abstract = True
 
 
 class CheckoutBasket(Checkout):
     product_basket = models.ManyToManyField(ProductBasket, related_name='product_basket')
+    billing_details = models.ForeignKey(BillingDetails, on_delete=models.CASCADE, related_name='CheckoutBasket')
+    account = models.ForeignKey(User, on_delete=models.CASCADE, related_name='CheckoutBasket')
 
     def __str__(self):
         return str(self.id)
@@ -50,11 +50,8 @@ class CheckoutProduct(Checkout):
     size = models.ForeignKey(Size, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveSmallIntegerField(default=0)
     total_sum = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    billing_details = models.ForeignKey(BillingDetails, on_delete=models.CASCADE, related_name='CheckoutProduct')
+    account = models.ForeignKey(User, on_delete=models.CASCADE, related_name='CheckoutProduct')
 
     def __str__(self):
         return str(self.id)
-
-    # def save(self, *args, **kwargs):
-    #     if self.product:
-    #         self.total_sum = self.product.price * self.quantity
-    #     super().save(*args, **kwargs)
