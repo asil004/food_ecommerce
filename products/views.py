@@ -12,6 +12,7 @@ from rest_framework import status
 from datetime import datetime, timedelta
 import random
 from django.utils import timezone
+from django.db.models import Sum, F
 
 
 class ProductCategoryViewSet(APIView):
@@ -86,38 +87,77 @@ class OurProducts(APIView):
             return Response({"message": "The request was sent incorrectly"}, status.HTTP_400_BAD_REQUEST)
 
 
-class ProductDetail(APIView):
+class ProductDetailsCheckoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
         manual_parameters=[
             openapi.Parameter(
-                name='slug',
+                name='name',
                 in_=openapi.IN_QUERY,
                 type=openapi.TYPE_STRING,
-                description='Product Slug',
+                description='Product name',
                 required=True
             ),
         ]
     )
     def get(self, request):
-
-        slug = request.query_params.get('slug')
-
-        if not slug:
-            return Response({"message": "Product Slug is required"}, status=status.HTTP_400_BAD_REQUEST)
-
+        name = request.query_params.get('name')
         try:
-            product = get_object_or_404(Product, slug=slug)
-            serializer = ProductSerializer(product)
-            category_slug = product.category.slug
-            similar_products = Product.objects.filter(category__slug=category_slug).exclude(id=product.id)[:4]
-            similar_products_serializer = ProductSerializer(similar_products, many=True)
-            response_data = {
-                "product_details": serializer.data,
-                "similar_products": similar_products_serializer.data
-            }
-
-            return Response(response_data)
+            products = Product.objects.filter(name=name)
         except Product.DoesNotExist:
-            return Response({"message": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Ushbu nomga ega bo'lgan mahsulot topilmadi"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = ProductSerializer(products, many=True)
+        return Response({"data": serializer.data})
+
+
+class CheckoutSold(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                name='color_slug',
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                description='color slug',
+                required=True
+            ),
+            openapi.Parameter(
+                name='size_slug',
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                description='size slug',
+                required=True
+            ),
+            openapi.Parameter(
+                name='name',
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                description='Product name',
+                required=True
+            ),
+        ]
+    )
+    def get(self, request, quantity):
+        name = request.query_params.get('name')
+        color_slug = request.query_params.get('color_slug')
+        size_slug = request.query_params.get('size_slug')
+        try:
+            products = Product.objects.filter(
+                name=name, color__slug=color_slug, size__slug=size_slug
+            )
+        except Product.DoesNotExist:
+            return Response(
+                {"error": "Ushbu nom, rang yoki o'lchov nomiga ega bo'lgan mahsulot topilmadi"},
+                status=404,
+            )
+
+        if not products.exists():
+            return Response(
+                {"error": "Ushbu nom, rang yoki o'lchov nomiga ega bo'lgan mahsulot topilmadi"},
+                status=404,
+            )
+        total_sum = products.aggregate(total_price=Sum(F('price') * quantity))['total_price']
+        serializer = ProductSerializer(products, many=True)
+        return Response({"result": serializer.data, "total_sum": total_sum}, status=200)

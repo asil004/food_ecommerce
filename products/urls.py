@@ -8,7 +8,9 @@ urlpatterns = [
         path('flash-sales/', Flashsalesproduct.as_view()),
         path('best-selling/', BestSellingProduct.as_view()),
         path('our/', OurProducts.as_view()),
-        path('detail/', ProductDetail.as_view())
+        path('detail/', ProductDetailsCheckoutView.as_view()),
+        path('buy-product/<int:quantity>',CheckoutSold.as_view())
+
     ]))
 
 ]
