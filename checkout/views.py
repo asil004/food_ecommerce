@@ -68,7 +68,9 @@ class ProductCheckoutCreateView(APIView):
 
             checkout = ProductCheckout.objects.filter(account=user, is_checkout=False).first()
             if not checkout:
-                ProductCheckout.objects.create(account=user, product=product, billing_details=billing_details,**serializer.validated_data)
+                ProductCheckout.objects.create(account=user, product=product, billing_details=billing_details,
+                                               **serializer.validated_data)
+
 
 
             else:
