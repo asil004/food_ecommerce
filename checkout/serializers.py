@@ -18,7 +18,7 @@ class CheckoutSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = CheckoutBasket
-        fields = ['billing_details', 'cupon_code', 'payment_type', 'card_number', 'card_date']
+        fields = ['id','billing_details', 'cupon_code', 'payment_type', 'card_number', 'card_date']
 
 
 class CheckoutProductSerializers(serializers.ModelSerializer):
@@ -26,7 +26,7 @@ class CheckoutProductSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = ProductCheckout
-        fields = ['billing_details', 'cupon_code', 'payment_type', 'card_number', 'card_date',
+        fields = ['id','billing_details', 'cupon_code', 'payment_type', 'card_number', 'card_date',
                   'quantity', 'total_sum']
 
 

@@ -6,13 +6,13 @@ from .models import About, Workers, Positions
 class AboutSerializer(serializers.ModelSerializer):
     class Meta:
         model = About
-        exclude = ['id', 'created_at', 'updated_at']
+        exclude = ['created_at', 'updated_at']
 
 
 class PostionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Positions
-        exclude = ['id']
+        fields = '__all__'
 
 
 class WorkersSerializers(serializers.ModelSerializer):

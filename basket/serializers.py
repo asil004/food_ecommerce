@@ -14,13 +14,13 @@ class ProductBasketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductBasket
-        fields = ['user', 'product', 'quantity', 'sum']
+        fields = ['id','user', 'product', 'quantity', 'sum']
 
 
 class ProductBasketCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductBasket
-        fields = ['product']
+        fields = ['id','product']
 
     def create(self, validated_data):
         validated_data['quantity'] = 1
