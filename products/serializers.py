@@ -36,7 +36,7 @@ class DiscountsSerializer(serializers.ModelSerializer):
 
 class ProductCategorySerializers(serializers.ModelSerializer):
     images = ImageSerializer(many=True)
-    stars = StarsSerializer(many=True)
+    stars = StarsSerializer()
     discount = DiscountsSerializer()
 
     class Meta:
