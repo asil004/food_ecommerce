@@ -1,3 +1,4 @@
+from django.db.models import F
 from rest_framework import serializers
 
 from .models import Product, ProductBasket, Basket
@@ -14,13 +15,13 @@ class ProductBasketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductBasket
-        fields = ['id','user', 'product', 'quantity', 'sum']
+        fields = ['id', 'user', 'product', 'quantity', 'sum']
 
 
 class ProductBasketCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductBasket
-        fields = ['id','product']
+        fields = ['id', 'product']
 
     def create(self, validated_data):
         validated_data['quantity'] = 1
@@ -35,7 +36,7 @@ class ProductBasketPlusSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request = self.context.get('request')
         product_basket = ProductBasket.objects.get(pk=request.data['id'])
-        product_basket.quantity += 1
+        product_basket.quantity = F('quantity') + 1
         product_basket.save()
         return product_basket
 
