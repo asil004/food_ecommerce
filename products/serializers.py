@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from categories.models import Category
+from categories.serializers import CategorySerializer
 from .models import *
 
 
@@ -38,6 +39,7 @@ class ProductCategorySerializers(serializers.ModelSerializer):
     images = ImageSerializer(many=True)
     stars = StarsSerializer(many=True)
     discount = DiscountsSerializer()
+    category = CategorySerializer()
 
     class Meta:
         model = Product
@@ -49,6 +51,7 @@ class ProductSerializer(serializers.ModelSerializer):
     color = ColorsSerializer(many=True)
     size = SizesSerializer(many=True)
     stars = StarsSerializer(many=True)
+    category = CategorySerializer()
 
     class Meta:
         model = Product
