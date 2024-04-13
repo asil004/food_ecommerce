@@ -53,6 +53,7 @@ class ProductSerializer(serializers.ModelSerializer):
     stars = StarsSerializer(many=True)
     category = CategorySerializer()
 
+
     class Meta:
         model = Product
         fields = ["id", "name", "slug", "price", "quantity", "description", "category", "color", "size",

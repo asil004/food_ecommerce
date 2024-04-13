@@ -103,6 +103,7 @@ class ProductDetailsCheckoutView(APIView):
         name = request.query_params.get('name')
         try:
             products = Product.objects.filter(name=name)
+            print('---------------->', products)
         except Product.DoesNotExist:
             return Response({"error": "Ushbu nomga ega bo'lgan mahsulot topilmadi"}, status=status.HTTP_404_NOT_FOUND)
         serializer = ProductSerializer(products, many=True)
@@ -158,4 +159,4 @@ class CheckoutSold(APIView):
             )
         total_sum = products.aggregate(total_price=Sum(F('price') * quantity))['total_price']
         serializer = ProductSerializer(products, many=True)
-        return Response({"result": serializer.data, "total_sum": total_sum,"quantity":quantity}, status=200)
+        return Response({"result": serializer.data, "total_sum": total_sum, "quantity": quantity}, status=200)
