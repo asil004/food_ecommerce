@@ -48,9 +48,9 @@ class ProductCategorySerializers(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True)
-    color = ColorsSerializer(many=True)
-    size = SizesSerializer(many=True)
-    stars = StarsSerializer(many=True)
+    color = ColorsSerializer()
+    size = SizesSerializer()
+    stars = StarsSerializer()
     category = CategorySerializer()
 
     class Meta:
