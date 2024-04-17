@@ -52,7 +52,7 @@ class ProductSerializer(serializers.ModelSerializer):
     size = SizesSerializer(many=True)
     stars = StarsSerializer(many=True)
     category = CategorySerializer()
-
+    discount = DiscountsSerializer()
 
     class Meta:
         model = Product
