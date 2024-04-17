@@ -1,3 +1,4 @@
+from django.db.models import F
 from rest_framework import serializers
 
 from products.serializers import ProductCategorySerializers
@@ -49,7 +50,7 @@ class ProductBasketPlusSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request = self.context.get('request')
         product_basket = ProductBasket.objects.get(pk=request.data['id'])
-        product_basket.quantity += 1
+        product_basket.quantity = F('quantity') + 1
         product_basket.save()
         return product_basket
 
