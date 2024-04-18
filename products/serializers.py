@@ -54,7 +54,6 @@ class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     discount = DiscountsSerializer()
 
-
     class Meta:
         model = Product
         fields = ["id", "name", "slug", "price", "quantity", "description", "category", "color", "size",
