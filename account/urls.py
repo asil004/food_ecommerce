@@ -12,8 +12,8 @@ urlpatterns = [
         path('drf-auth/', include('rest_framework.urls')),
 
         # change
-        path('change_password/<int:pk>/', ChangePasswordView.as_view(), name='auth_change_password'),
-        path('update_profile/<int:pk>/', UpdateProfileView.as_view(), name='auth_update_profile'),
+        path('change_password/', ChangePasswordView.as_view(), name='auth_change_password'),
+        path('update_profile/', UpdateProfileView.as_view(), name='auth_update_profile'),
     ])),
     path('social-auth', include([
         path('auth/', include('drf_social_oauth2.urls')),
