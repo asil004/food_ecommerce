@@ -102,8 +102,8 @@ class UpdateUserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         user = self.context['request'].user
 
-        if user.pk != instance.pk:
-            raise serializers.ValidationError({"authorize": "You dont have permission for this user."})
+        # if user.pk != instance.pk:
+        #     raise serializers.ValidationError({"authorize": "You dont have permission for this user."})
 
         instance.first_name = validated_data['first_name']
         instance.last_name = validated_data['last_name']
