@@ -115,11 +115,11 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         return instance
 
 
-class ForgotPasswordSerializer(serializers.Serializer):
+class ForgetPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
 
-class ForgotChangePasswordSerializers(serializers.Serializer):
+class ForgetChangePasswordSerializers(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True, required=True)
     code = serializers.IntegerField()

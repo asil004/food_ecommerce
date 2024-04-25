@@ -7,11 +7,11 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import ChangePasswordSerializer, UpdateUserSerializer, \
-    RegisterSerializer, MyTokenObtainPairSerializer, ForgotPasswordSerializer, \
-    ForgotChangePasswordSerializers
+    RegisterSerializer, MyTokenObtainPairSerializer, ForgetPasswordSerializer, \
+    ForgetChangePasswordSerializers
 from drf_yasg.utils import swagger_auto_schema
 from .models import User
-from django.core.mail import send_mail
+
 import smtplib
 import ssl
 
@@ -46,11 +46,11 @@ class UpdateProfileView(generics.UpdateAPIView):
         return self.request.user
 
 
-class ForgotPasswordView(APIView):
+class ForgetPasswordView(APIView):
 
-    @swagger_auto_schema(request_body=ForgotPasswordSerializer)
+    @swagger_auto_schema(request_body=ForgetPasswordSerializer)
     def post(self, request):
-        serializer = ForgotPasswordSerializer(data=request.data)
+        serializer = ForgetPasswordSerializer(data=request.data)
         if serializer.is_valid():
             email = serializer.validated_data.get('email')
 
@@ -78,9 +78,10 @@ class ForgotPasswordView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ForgotChangePasswordView(APIView):
-    serializer_class = ForgotChangePasswordSerializers
-    @swagger_auto_schema(request_body=ForgotChangePasswordSerializers)
+class ForgetChangePasswordView(APIView):
+    serializer_class = ForgetChangePasswordSerializers
+
+    @swagger_auto_schema(request_body=ForgetChangePasswordSerializers)
     def put(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         User = get_user_model()
